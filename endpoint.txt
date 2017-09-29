@@ -1,1 +1,1 @@
-https://api.druid.datalegend.net/datasets/dataLegend/jobHoard/containers/Demo/sparql
+https://api.druid.datalegend.net/datasets/dataLegend/gemeenteGeschiedenis/containers/gg8GB/sparql
