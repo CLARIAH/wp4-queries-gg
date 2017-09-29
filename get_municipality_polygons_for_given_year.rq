@@ -3,13 +3,13 @@
 #+   - polygons
 #+   - gemeentegeschiedenis
 
-
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?place ?geo ?label ?geoLabel ?gemGesch (min(?ggyear) as ?ggyearmin) WHERE {
+SELECT ?geo ?label ?gemGesch (min(?ggyear) as ?ggyearmin) #?geoLabel
+WHERE {
   ?gemGesch rdf:type <http://www.gemeentegeschiedenis.nl/gg-schema#Municipality> .
   ?gemGesch <http://www.gemeentegeschiedenis.nl/gg-schema#amsterdamCode> ?code .
    
@@ -18,8 +18,8 @@ SELECT ?place ?geo ?label ?geoLabel ?gemGesch (min(?ggyear) as ?ggyearmin) WHERE
   ?gemGesch geo:hasGeometry/<http://www.gemeentegeschiedenis.nl/gg-schema#year> ?ggyear .
   FILTER (xsd:gYear("1840") - ?ggyear >= 0 ) .
   
-  # uncomment below for 'pins', not useful for full map though
-  #   # OPTIONAL {?gemGesch rdfs:label ?label . }
-  #     # BIND(CONCAT(?label) as ?geoLabel)
-  #      
+  OPTIONAL {?gemGesch rdfs:label ?label . }
+  # uncomment below (and in select statement) for 'pins', not useful for full map though
+  #   # BIND(CONCAT(?label) as ?geoLabel)
+  #    
 } 
