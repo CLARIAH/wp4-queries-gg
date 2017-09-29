@@ -1,0 +1,25 @@
+#+ summary: retrieve municipality polygons for a given year (1840) 
+#+ tags:
+#+   - polygons
+#+   - gemeentegeschiedenis
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?place ?geo ?label ?geoLabel ?gemGesch (min(?ggyear) as ?ggyearmin) WHERE {
+  ?gemGesch rdf:type <http://www.gemeentegeschiedenis.nl/gg-schema#Municipality> .
+  ?gemGesch <http://www.gemeentegeschiedenis.nl/gg-schema#amsterdamCode> ?code .
+   
+  ?gemGesch geo:hasGeometry/geo:asWKT ?geo .
+
+  ?gemGesch geo:hasGeometry/<http://www.gemeentegeschiedenis.nl/gg-schema#year> ?ggyear .
+  FILTER (xsd:gYear("1840") - ?ggyear >= 0 ) .
+  
+  # uncomment below for 'pins', not useful for full map though
+  #   # OPTIONAL {?gemGesch rdfs:label ?label . }
+  #     # BIND(CONCAT(?label) as ?geoLabel)
+  #      
+} 
