@@ -1,0 +1,20 @@
+#+ summary: retrieve municipality polygons for a given year (1840) 
+#+ tags:
+#+   - polygons
+#+   - gemeentegeschiedenis
+#+   - absorbed
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+
+SELECT DISTINCT ?oldmuni ?newmuni ?endDate
+WHERE {
+  ?oldmuni gg:absorbedBy ?newmuni .
+  ?oldmuni gg:endDate ?endDate .
+  FILTER (?endDate < xsd:date("1860-01-01")) .  
+} 
+
+limit 50
