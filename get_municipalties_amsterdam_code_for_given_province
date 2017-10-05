@@ -1,0 +1,20 @@
+#+ summary: retrieve municapalities and Amsterdam Code from particular province
+#+ tags:
+#+   - polygons
+#+   - gemeentegeschiedenis
+#+   - amsterdam code
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+
+SELECT DISTINCT ?prov ?muni ?amco
+WHERE {
+  ?prov gg:municipalityIn ?muni .
+  ?prov rdfs:label "Friesland"^^xsd:string . # Select only provinces who have 'Friesland' as label
+  ?muni gg:amsterdamCode ?amco . # Provide for every muni their gg:amsterdamCode
+} 
+
+limit 50
