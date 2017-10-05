@@ -1,0 +1,25 @@
+#+ summary: retrieve municipality polygons for a given year (1840) 
+#+ tags:
+#+   - polygons
+#+   - gemeentegeschiedenis
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX gg: <http://www.gemeentegeschiedenis.nl/gg-schema#>
+
+SELECT DISTINCT ?muni ?label ?amco ?cbsco ?polygonYear ?geoLabel ?geo
+WHERE {
+  ?muni rdf:type gg:Municipality .
+  ?muni rdfs:label ?label .
+  FILTER regex(?label, "Rotterdam")
+  ?muni gg:amsterdamCode ?amco .
+  ?muni gg:cbsCode ?cbsco .
+  ?muni geo:hasGeometry/gg:year ?polygonYear .
+  #?muni geo:hasGeometry/geo:asWKT ?geo . # shows actual geometries
+  BIND(CONCAT("R'dam ",?polygonYear) as ?geoLabel)
+}
+ORDER BY (?polygonYear)
+
+limit 50
